@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "TimeManager.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 
 Game::Game()
 {
@@ -9,6 +10,8 @@ Game::Game()
 
 Game::~Game()
 {
+	GET_SINGLE(SceneManager)->Clear();
+	_CrtDumpMemoryLeaks();
 }
 
 void Game::Init(HWND hwnd)
@@ -18,12 +21,16 @@ void Game::Init(HWND hwnd)
 
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(InputManager)->Init(hwnd);
+	GET_SINGLE(SceneManager)->Init();
+	
+	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);
 }
 
 void Game::Update()
 {
 	GET_SINGLE(TimeManager)->Update();
 	GET_SINGLE(InputManager)->Update();
+	GET_SINGLE(SceneManager)->Update();
 
 }
 
@@ -40,12 +47,14 @@ void Game::Render()
 
 	}
 
+	{
+		wstring str = std::format(L"FPS({0}), DT({1} ms)", fps, static_cast<uint32>(deltaTime * 1000));
 
-	wstring str=std::format(L"FPS({0}), DT({1} ms)",fps,static_cast<uint32>(deltaTime*1000));
+		::TextOut(_hdc, 650, 10, str.c_str(), static_cast<int32>(str.size()));
+	}
 
-	::TextOut(_hdc, 650, 10, str.c_str(), static_cast<int32>(str.size()));
+	GET_SINGLE(SceneManager)->Render(_hdc);
 	
-	::Rectangle(_hdc, 200, 200, 400, 400);
 
 
 }

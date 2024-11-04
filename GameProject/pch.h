@@ -4,6 +4,7 @@
 #include "Types.h"
 #include "Defines.h"
 #include "Enums.h"
+#include "Utils.h"
 
 #include <windows.h>
 #include <memory>
@@ -16,6 +17,13 @@
 #include <format>
 using namespace std;
 
+#define _CRTDEBUG_MAP_ALLOG
+#include <cstdlib>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define new new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#endif
 
 //// C의 런타임 헤더 파일입니다.
 //#include <stdlib.h>

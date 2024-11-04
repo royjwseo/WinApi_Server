@@ -30,4 +30,11 @@ private:									\
 classname* classname::s_instance=nullptr;\
 
 
+#define SAFE_DELETE(ptr)\
+if (ptr) {\
+	delete ptr;\
+	ptr = nullptr;\
+}\
+
+
 #define GET_SINGLE(classname) classname::GetInstance()
