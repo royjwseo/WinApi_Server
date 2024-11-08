@@ -13,8 +13,6 @@ using uint64	= unsigned __int64;
 struct Pos {
 	float x = 0;
 	float y = 0;
-	Pos(float _x, float _y) { x = _x; y = _y; }
-	Pos() = default;
 };
 
 struct Stat {
